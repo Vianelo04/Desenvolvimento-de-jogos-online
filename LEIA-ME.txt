@@ -1,0 +1,102 @@
+=========================================================================
+ATIVIDADE - PERSONAGEM QUE SE MOVIMENTA E ATIRA (Canvas 2D + JavaScript)
+=========================================================================
+
+COMO EXECUTAR
+-------------
+Basta abrir o arquivo "index.html" em qualquer navegador (Chrome, Edge,
+Firefox). Não é necessário servidor nem instalação. Clique uma vez na
+página para garantir que ela esteja em foco e use o teclado.
+
+
+COMANDOS UTILIZADOS
+-------------------
+  Seta esquerda  (<-)   ->  movimenta a nave para a esquerda
+  Seta direita   (->)   ->  movimenta a nave para a direita
+  Barra de espaço       ->  realiza um disparo
+
+O disparo sempre sai no sentido para o qual a nave está virada: se ela
+acabou de andar para a esquerda, o laser vai para a esquerda; se andou
+para a direita, o laser vai para a direita. Cada toque na barra de espaço
+gera um único disparo (é preciso soltar e apertar de novo para atirar
+outra vez), exatamente como no exercício da aula.
+
+
+TEMA ESCOLHIDO
+--------------
+Nave espacial: a "AURORA-7", uma nave de patrulha que sobrevoa a órbita de
+um planeta distante, em um cenário de espaço profundo com estrelas em
+movimento, nebulosa e um planeta ao fundo. A identidade visual usa tons de
+azul escuro com neon ciano e magenta.
+
+
+ARQUIVOS DO PROJETO
+-------------------
+  index.html        Página principal (canvas, estilo e comandos na tela)
+  js/teclado.js     Controlador do teclado (baseado em teclado.js)
+  js/animacao.js    Loop principal da animação (baseado em animacao.js)
+  js/nave.js        A nave Aurora-7 (baseado em heroi.js)
+  js/tiro.js        O disparo laser (baseado em bola.js)
+  js/estrelas.js    Cenário: campo de estrelas, nebulosa e planeta (NOVO)
+  js/jogo.js        Montagem da cena (era o script dentro do HTML da aula)
+  imagens/nave.svg  Imagem usada para desenhar a nave
+  LEIA-ME.txt       Este arquivo
+
+
+ALTERAÇÕES REALIZADAS EM RELAÇÃO AO PROJETO ORIGINAL
+----------------------------------------------------
+1) PERSONAGEM (heroi.js  ->  js/nave.js)
+   - a classe "Heroi" virou "Nave";
+   - o retângulo cinza de 20x50 desenhado com fillRect() foi substituído
+     por uma imagem (imagens/nave.svg) de 64x40 desenhada com drawImage();
+   - a nave é espelhada com ctx.scale(-1, 1) quando anda para a esquerda,
+     por isso ela sempre "olha" para o lado em que está se movendo;
+   - propulsor animado na traseira (a chama aumenta quando a nave acelera)
+     e um clarão no canhão logo depois de cada disparo;
+   - velocidade de movimentação de 10 para 6 pixels por quadro, deixando o
+     movimento mais suave;
+   - se a imagem não puder ser carregada, o método desenharVetorial()
+     desenha a mesma nave com formas do Canvas, e tudo continua rodando.
+
+2) DISPARO (bola.js  ->  js/tiro.js)
+   - a classe "Bola" virou "Tiro";
+   - em vez de um círculo preto/vermelho de raio 2, o disparo é um laser
+     alongado (elipse de 14x3) na cor ciano (#3ee8ff), com brilho
+     (shadowBlur), núcleo branco e um rastro em degradê;
+   - velocidade do disparo de 20 para 16 pixels por quadro;
+   - o tiro nasce exatamente na ponta do canhão, no lado correto da nave;
+   - quando sai da tela, o tiro se marca com "remover = true".
+
+3) ANIMAÇÃO (animacao.js)
+   - foi acrescentado um sprite de fundo (definirFundo), desenhado antes
+     de todos os outros;
+   - foi acrescentado o método limparSprites(), que descarta os tiros que
+     já saíram da tela, evitando que a lista de sprites cresça sem parar.
+
+4) TECLADO (teclado.js)
+   - além de "evento.keyCode", agora o controlador também entende
+     "evento.key" (ArrowLeft, ArrowRight e espaço), o que garante o
+     funcionamento nos navegadores mais novos;
+   - preventDefault() nas setas e no espaço, para a página não rolar
+     enquanto jogamos.
+
+5) CENÁRIO (js/estrelas.js - arquivo novo)
+   - céu em degradê, nebulosa, planeta e 90 estrelas que se deslocam em
+     velocidades diferentes, criando sensação de profundidade.
+
+6) ÁREA DO JOGO E POSIÇÃO INICIAL
+   - o canvas passou de 500x500 para 800x400 (formato panorâmico), com
+     borda neon arredondada e brilho;
+   - a nave começa centralizada na horizontal e na parte de baixo da tela,
+     e não mais no canto superior esquerdo;
+   - a página ganhou título, subtítulo e um painel com os comandos.
+
+7) ORGANIZAÇÃO
+   - os scripts foram separados na pasta "js" e a imagem na pasta
+     "imagens"; o script que monta a cena saiu de dentro do HTML e virou
+     o arquivo js/jogo.js.
+
+Observação: a lógica original da aula (Teclado -> Animacao -> Sprites com
+atualizar()/desenhar(), e o disparo via teclado.disparou(ESPACO, ...)) foi
+mantida do mesmo jeito. Não foram acrescentados inimigos, colisões,
+pontuação, fases ou saltos.

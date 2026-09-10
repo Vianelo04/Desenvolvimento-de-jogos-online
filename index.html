@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="utf-8">
+   <title>Aurora-7 &mdash; Patrulha Estelar</title>
+
+   <!--
+      ====================================================================
+      ATIVIDADE: personagem que se movimenta e atira (Canvas + JavaScript)
+      Baseado no exercício da aula (teclado.js / heroi.js / bola.js /
+      animacao.js / teste-teclado-3.html).
+
+      TEMA ESCOLHIDO: nave espacial - a "Aurora-7", que patrulha a órbita
+      de um planeta distante.
+
+      PRINCIPAIS ALTERAÇÕES (detalhes completos no arquivo LEIA-ME.txt):
+        - o retângulo do herói virou uma nave (imagem SVG + propulsor animado);
+        - "bola.js" virou "tiro.js": um raio laser ciano, com brilho e rastro;
+        - novo cenário: campo de estrelas em movimento, nebulosa e planeta;
+        - tamanhos, cores, velocidades e posição inicial personalizados;
+        - a Animacao agora descarta os tiros que saem da tela.
+
+      COMANDOS:
+        seta esquerda  -> mover para a esquerda
+        seta direita   -> mover para a direita
+        barra de espaço-> atirar (o tiro sai no sentido em que a nave olha)
+      ====================================================================
+   -->
+
+   <style>
+      body {
+         margin: 0;
+         padding: 30px 16px;
+         background: #05070f;
+         color: #cfe3ff;
+         font-family: "Trebuchet MS", Verdana, sans-serif;
+         text-align: center;
+      }
+      h1 {
+         margin: 0 0 4px;
+         font-size: 26px;
+         letter-spacing: 3px;
+         text-transform: uppercase;
+         color: #3ee8ff;
+         text-shadow: 0 0 14px rgba(62, 232, 255, 0.6);
+      }
+      p.subtitulo {
+         margin: 0 0 18px;
+         color: #7f93b8;
+         font-size: 14px;
+         letter-spacing: 1px;
+      }
+      canvas {
+         background: #050a1f;
+         border: 2px solid #3ee8ff;
+         border-radius: 10px;
+         box-shadow: 0 0 30px rgba(62, 232, 255, 0.35);
+         max-width: 100%;
+      }
+      .comandos {
+         margin: 18px auto 0;
+         max-width: 800px;
+         font-size: 14px;
+         line-height: 1.9;
+         color: #9fb4d6;
+      }
+      .tecla {
+         display: inline-block;
+         min-width: 26px;
+         padding: 2px 9px;
+         margin: 0 4px;
+         border: 1px solid #3ee8ff;
+         border-radius: 6px;
+         background: rgba(62, 232, 255, 0.08);
+         color: #eafffb;
+         font-weight: bold;
+      }
+      .assinatura {
+         margin-top: 22px;
+         font-size: 12px;
+         color: #55688c;
+      }
+   </style>
+
+   <!-- Scripts do projeto -->
+   <script src="js/teclado.js"></script>
+   <script src="js/animacao.js"></script>
+   <script src="js/estrelas.js"></script>
+   <script src="js/tiro.js"></script>
+   <script src="js/nave.js"></script>
+</head>
+
+<body>
+   <h1>Aurora-7</h1>
+   <p class="subtitulo">Patrulha estelar &mdash; setor orbital 7</p>
+
+   <canvas id="canvas_aurora" width="800" height="400"></canvas>
+
+   <div class="comandos">
+      <span class="tecla">&larr;</span> mover para a esquerda
+      &nbsp;&bull;&nbsp;
+      <span class="tecla">&rarr;</span> mover para a direita
+      &nbsp;&bull;&nbsp;
+      <span class="tecla">Espa&ccedil;o</span> disparar
+      <br>
+      O disparo sempre segue o lado para o qual a nave est&aacute; virada.
+   </div>
+
+   <p class="assinatura">Atividade de Desenvolvimento de Jogos Online &mdash; Canvas 2D + JavaScript</p>
+
+   <!-- A montagem da cena fica por último, quando o canvas já existe -->
+   <script src="js/jogo.js"></script>
+</body>
+
+</html>
