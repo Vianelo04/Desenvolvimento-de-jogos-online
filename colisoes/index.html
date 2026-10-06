@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Colisão Orbital</title>
+
+   <!--
+      ====================================================================
+      ATIVIDADE: Sprites, detecção e tratamento de colisões
+      Baseado nos arquivos da aula (colisor.js / bola.js /
+      teste-colisao-1.html) e na nave Aurora-7 da atividade anterior.
+
+      REQUISITOS (detalhes completos no arquivo LEIA-ME.txt):
+        1) Sprite com vários retângulos: a Sentinela tem 4 retângulos de
+           colisão e o jogo identifica qual deles o laser atingiu;
+        2) Objeto que desaparece: o cristal some quando a nave o toca (e o
+           laser some quando acerta a Sentinela ou uma bola);
+        3) Duas bolas que mudam de cor quando colidem entre si;
+        4) Contador de colisões entre as bolas: na 3ª, GAME OVER.
+
+      COMANDOS:
+        setas          -> mover a nave
+        barra de espaço-> atirar
+        C              -> mostrar / esconder os retângulos de colisão
+        ENTER          -> começar / jogar novamente
+      ====================================================================
+   -->
+
+   <style>
+      body {
+         margin: 0;
+         padding: 28px 16px;
+         background: #05070f;
+         color: #cfe3ff;
+         font-family: "Trebuchet MS", Verdana, sans-serif;
+         text-align: center;
+      }
+      h1 {
+         margin: 0 0 4px;
+         font-size: 26px;
+         letter-spacing: 3px;
+         text-transform: uppercase;
+         color: #3ee8ff;
+         text-shadow: 0 0 14px rgba(62, 232, 255, 0.6);
+      }
+      p.subtitulo {
+         margin: 0 0 18px;
+         color: #7f93b8;
+         font-size: 14px;
+         letter-spacing: 1px;
+      }
+      canvas {
+         background: #050a1f;
+         border: 2px solid #3ee8ff;
+         border-radius: 10px;
+         box-shadow: 0 0 30px rgba(62, 232, 255, 0.35);
+         max-width: 100%;
+         height: auto;
+      }
+      .comandos {
+         margin: 16px auto 0;
+         max-width: 800px;
+         font-size: 14px;
+         line-height: 2;
+         color: #9fb4d6;
+      }
+      .tecla {
+         display: inline-block;
+         min-width: 18px;
+         padding: 0 8px;
+         margin: 0 3px;
+         border: 1px solid #3ee8ff;
+         border-radius: 6px;
+         background: rgba(62, 232, 255, 0.08);
+         color: #eafffb;
+         font-weight: bold;
+         line-height: 1.6;
+      }
+      .requisitos {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+         gap: 12px;
+         max-width: 804px;
+         margin: 22px auto 0;
+         text-align: left;
+      }
+      .requisito {
+         padding: 12px 14px;
+         border: 1px solid rgba(62, 232, 255, 0.25);
+         border-top: 3px solid var(--cor);
+         border-radius: 8px;
+         background: rgba(11, 22, 54, 0.6);
+         font-size: 13px;
+         line-height: 1.5;
+         color: #9fb4d6;
+      }
+      .requisito h2 {
+         margin: 0 0 6px;
+         font-size: 14px;
+         color: var(--cor);
+      }
+      .requisito code {
+         color: #cfe3ff;
+         font-size: 12px;
+      }
+      .assinatura {
+         margin-top: 22px;
+         font-size: 12px;
+         color: #55688c;
+      }
+   </style>
+
+   <!-- Scripts do projeto -->
+   <script src="js/teclado.js"></script>
+   <script src="js/animacao.js"></script>
+   <script src="js/colisor.js"></script>
+   <script src="js/estrelas.js"></script>
+   <script src="js/efeitos.js"></script>
+   <script src="js/bola.js"></script>
+   <script src="js/tiro.js"></script>
+   <script src="js/nave.js"></script>
+   <script src="js/sentinela.js"></script>
+   <script src="js/cristal.js"></script>
+   <script src="js/painel.js"></script>
+</head>
+
+<body>
+   <h1>Colisão Orbital</h1>
+   <p class="subtitulo">Sprites e colisões &mdash; Aurora-7 contra a Sentinela X-9</p>
+
+   <canvas id="canvas_colisao" width="800" height="480"></canvas>
+
+   <div class="comandos">
+      <span class="tecla">&larr;</span><span class="tecla">&uarr;</span><span class="tecla">&rarr;</span><span class="tecla">&darr;</span> mover
+      &nbsp;&bull;&nbsp;
+      <span class="tecla">Espa&ccedil;o</span> atirar
+      &nbsp;&bull;&nbsp;
+      <span class="tecla">C</span> ret&acirc;ngulos de colis&atilde;o
+      &nbsp;&bull;&nbsp;
+      <span class="tecla">Enter</span> come&ccedil;ar / jogar de novo
+   </div>
+
+   <div class="requisitos">
+      <div class="requisito" style="--cor: #3ee8ff">
+         <h2>1. V&aacute;rios ret&acirc;ngulos</h2>
+         A Sentinela tem 4 ret&acirc;ngulos de colis&atilde;o. O Colisor diz qual
+         foi atingido: a parte pisca e o nome dela aparece no placar.
+         <br><code>sentinela.js</code> <code>colisor.js</code>
+      </div>
+      <div class="requisito" style="--cor: #ffd23e">
+         <h2>2. Objeto que some</h2>
+         Quando a nave toca o cristal, ele desaparece da tela. O laser tamb&eacute;m
+         some ao acertar a Sentinela ou uma bola.
+         <br><code>cristal.js</code> <code>tiro.js</code>
+      </div>
+      <div class="requisito" style="--cor: #ff3ea5">
+         <h2>3. Bolas mudam de cor</h2>
+         As duas bolas de plasma trocam de cor a cada colis&atilde;o entre elas.
+         <br><code>bola.js</code>
+      </div>
+      <div class="requisito" style="--cor: #ff4d6d">
+         <h2>4. Contador e Game Over</h2>
+         As colis&otilde;es entre as bolas s&atilde;o contadas no placar. Na 3&ordf;,
+         aparece GAME OVER e o jogo para.
+         <br><code>jogo.js</code> <code>painel.js</code>
+      </div>
+   </div>
+
+   <p class="assinatura">Atividade de Desenvolvimento de Jogos Online &mdash; Canvas 2D + JavaScript</p>
+
+   <!-- A montagem da cena fica por último, quando o canvas já existe -->
+   <script src="js/jogo.js"></script>
+</body>
+
+</html>

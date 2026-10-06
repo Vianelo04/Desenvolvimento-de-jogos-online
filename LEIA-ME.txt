@@ -100,3 +100,11 @@ Observação: a lógica original da aula (Teclado -> Animacao -> Sprites com
 atualizar()/desenhar(), e o disparo via teclado.disparou(ESPACO, ...)) foi
 mantida do mesmo jeito. Não foram acrescentados inimigos, colisões,
 pontuação, fases ou saltos.
+
+
+OUTRAS ATIVIDADES NESTE REPOSITÓRIO
+-----------------------------------
+  colisoes/   Atividade de Sprites e colisões ("Colisão Orbital"): sprite
+              com vários retângulos, objeto que desaparece, bolas que mudam
+              de cor e contador de colisões com Game Over. Abra o arquivo
+              "colisoes/index.html" e veja "colisoes/LEIA-ME.txt".

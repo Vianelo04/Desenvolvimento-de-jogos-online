@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 40" width="64" height="40">
+  <!-- Nave Aurora-7 - desenhada apontando para a DIREITA.
+       Quando a nave anda para a esquerda, o próprio Canvas espelha a imagem. -->
+  <defs>
+    <linearGradient id="casco" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#f4f8ff"/>
+      <stop offset="45%"  stop-color="#b9cbe6"/>
+      <stop offset="100%" stop-color="#405f8a"/>
+    </linearGradient>
+    <linearGradient id="asa" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#7a1f6e"/>
+      <stop offset="100%" stop-color="#ff3ea5"/>
+    </linearGradient>
+    <radialGradient id="vidro" cx="35%" cy="30%" r="75%">
+      <stop offset="0%"   stop-color="#eafffb"/>
+      <stop offset="55%"  stop-color="#3ee8ff"/>
+      <stop offset="100%" stop-color="#0b5f80"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Asas -->
+  <path d="M8 20 L34 18 L24 3 L13 6 Z"  fill="url(#asa)"/>
+  <path d="M8 20 L34 22 L24 37 L13 34 Z" fill="url(#asa)"/>
+
+  <!-- Turbinas -->
+  <rect x="3"  y="15" width="10" height="4" rx="2" fill="#2b3f60"/>
+  <rect x="3"  y="21" width="10" height="4" rx="2" fill="#2b3f60"/>
+
+  <!-- Casco -->
+  <path d="M6 14 Q28 9 42 11 Q58 14 62 20 Q58 26 42 29 Q28 31 6 26 Z"
+        fill="url(#casco)" stroke="#22344f" stroke-width="0.8"/>
+
+  <!-- Faixa de energia -->
+  <path d="M12 20 L44 19 L52 20 L44 21 Z" fill="#3ee8ff" opacity="0.75"/>
+
+  <!-- Cabine -->
+  <ellipse cx="36" cy="18" rx="9" ry="5" fill="url(#vidro)" stroke="#1a3a52" stroke-width="0.7"/>
+
+  <!-- Canhão -->
+  <rect x="56" y="18.4" width="8" height="3.2" rx="1.6" fill="#d8e4f5"/>
+  <circle cx="63" cy="20" r="1.6" fill="#3ee8ff"/>
+</svg>

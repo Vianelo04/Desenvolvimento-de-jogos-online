@@ -1,0 +1,136 @@
+=========================================================================
+ATIVIDADE - SPRITES E COLISÕES: "COLISÃO ORBITAL" (Canvas 2D + JavaScript)
+=========================================================================
+
+COMO EXECUTAR
+-------------
+Abra o arquivo "colisoes/index.html" em qualquer navegador (Chrome, Edge,
+Firefox). Não é necessário servidor nem instalação. Clique uma vez na
+página para garantir que ela esteja em foco e pressione ENTER para começar.
+
+
+COMANDOS
+--------
+  Setas (<-  ->  cima  baixo)  ->  movem a nave
+  Barra de espaço              ->  atira um laser para cima
+  C                            ->  mostra / esconde os retângulos de colisão
+  ENTER                        ->  começa o jogo / joga de novo após o Game Over
+
+
+O JOGO
+------
+A nave Aurora-7 (da atividade anterior) enfrenta a Sentinela X-9, uma
+estação inimiga que patrulha o alto da tela. Duas bolas de plasma quicam
+pelo cenário: se elas se chocarem 3 vezes, o reator entra em colapso e é
+GAME OVER. Enquanto isso, a nave atira na Sentinela, coleta cristais e pode
+rebater as bolas com o próprio casco para mantê-las afastadas.
+
+
+COMO CADA REQUISITO FOI ATENDIDO
+-------------------------------
+1) MAIS DE UM RETÂNGULO EM UM SPRITE E QUAL RETÂNGULO FOI ATINGIDO
+   Arquivos: js/sentinela.js, js/colisor.js e js/jogo.js
+   - O método retangulosColisao() da Sentinela devolve 4 retângulos, um
+     para cada parte, cada um com um nome: asaEsquerda, nucleo, asaDireita
+     e canhao. (A nave também tem 2 retângulos: cabine e asas.)
+   - O Colisor foi alterado para entregar, além do outro sprite, QUAL
+     retângulo de cada um participou da colisão:
+        colidiuCom(outroSprite, meuRetangulo, retanguloDoOutro)
+   - Na Sentinela, colidiuCom() lê "meuRetangulo.nome", encontra a parte
+     correspondente (buscarParte), faz aquele retângulo piscar, conta o
+     acerto e avisa o jogo (aoSerAtingida).
+   - O jogo (sentinelaFoiAtingida) mostra o nome da parte no placar
+     ("RETÂNGULO ATINGIDO NA SENTINELA"), soma os pontos dela (núcleo 50,
+     canhão 25, asas 10) e escreve, por exemplo, "NÚCLEO +50" no ponto do
+     impacto. Na tela de Game Over aparece quantas vezes cada retângulo foi
+     atingido.
+   - Com a tecla C é possível ver todos os retângulos de colisão e o nome
+     de cada parte da Sentinela.
+
+2) COLISÃO EM QUE UM DOS OBJETOS DESAPARECE
+   Arquivos: js/cristal.js, js/tiro.js e js/jogo.js
+   - Quando a nave toca um cristal, o cristal chama sumir(): ele é excluído
+     da Animacao (deixa de ser desenhado) e do Colisor (deixa de colidir).
+     O jogo (cristalColetado) soma 15 pontos e cria outro cristal em outro
+     lugar da tela.
+   - O mesmo acontece com o laser: ele some quando acerta a Sentinela ou
+     quando é absorvido por uma das bolas.
+   - As exclusões só são feitas no fim de cada quadro (excluirSprite /
+     processarExclusoes), para não atrapalhar os laços que percorrem a
+     lista de sprites.
+
+3) DUAS BOLAS QUE MUDAM DE COR QUANDO COLIDEM
+   Arquivo: js/bola.js (métodos baterEm e mudarCor)
+   - Cada bola tem uma lista de cores. Quando as duas colidem, AMBAS passam
+     para a próxima cor da sua lista:
+        bola Alfa:  ciano   -> verde -> amarelo -> vermelho
+        bola Beta:  magenta -> roxo  -> laranja -> vermelho
+     Na 3ª colisão as duas ficam vermelhas.
+   - O Colisor compara retângulos, mas as bolas são redondas: nos cantos os
+     retângulos se encostam antes dos círculos. Por isso a bola confere a
+     distância entre os centros (precisa ser menor que a soma dos raios)
+     antes de considerar a batida.
+
+4) CONTADOR DE COLISÕES E GAME OVER
+   Arquivos: js/jogo.js (bolasColidiram e gameOver) e js/painel.js
+   - A variável placar.colisoesDasBolas conta as colisões entre as bolas.
+     O placar mostra três bolinhas que vão acendendo e o texto "1 / 3".
+   - Enquanto as bolas continuam sobrepostas, o Colisor avisa a colisão em
+     todos os quadros. Para que cada batida conte UMA vez só, a bola só
+     considera a colisão se as duas ainda estiverem se aproximando
+     (compara a distância de agora com a do próximo quadro). Depois que
+     quicam, elas se afastam e os avisos seguintes são ignorados.
+   - Na 3ª colisão, gameOver() muda o estado do jogo para "fim" e desliga
+     a Animacao: nada mais se move nem colide, e as setas e a barra de
+     espaço deixam de funcionar. A tela mostra "GAME OVER", a pontuação e o
+     resumo da partida. Só o ENTER funciona, para começar outra partida.
+
+
+ARQUIVOS DO PROJETO
+-------------------
+  index.html         Página principal (canvas, comandos e resumo dos requisitos)
+  js/teclado.js      Controlador do teclado (agora com cima, baixo, ENTER e C)
+  js/animacao.js     Loop principal (processamentos, excluirSprite, fundo e painel)
+  js/colisor.js      Detecção de colisões (informa o retângulo atingido)
+  js/bola.js         As duas bolas de plasma (requisitos 3 e 4)
+  js/sentinela.js    Sprite com 4 retângulos de colisão (requisito 1)
+  js/cristal.js      Objeto que some quando a nave o toca (requisito 2)
+  js/tiro.js         Laser da nave (some ao acertar)
+  js/nave.js         A nave Aurora-7, com 2 retângulos de colisão
+  js/efeitos.js      Ondas e textos flutuantes (apenas visual)
+  js/painel.js       Placar, retângulos de colisão, tela inicial e Game Over
+  js/estrelas.js     Cenário de fundo (estrelas, nebulosa e planeta)
+  js/jogo.js         Montagem da cena e regras do jogo
+  imagens/nave.svg   Imagem da nave
+  base-professor/    Arquivos da aula usados como base
+                     (colisor.js, bola.js e teste-colisao-1.html)
+  LEIA-ME.txt        Este arquivo
+
+
+ALTERAÇÕES EM RELAÇÃO AOS ARQUIVOS DA AULA
+------------------------------------------
+1) colisor.js
+   - colidiuCom() e aoColidir() passaram a receber também os retângulos que
+     colidiram (é isso que permite identificar a parte atingida);
+   - novo excluirSprite(): retira sprites dos testes no fim do quadro;
+   - cada par de sprites é testado uma vez por quadro com dois laços
+     (i < j), no lugar do controle "jaTestados" com strings;
+   - novo desenharRetangulos(): mostra os retângulos na tela (tecla C).
+
+2) bola.js
+   - lista de cores e mudarCor() (requisito 3);
+   - conferência da distância real entre os centros e da aproximação das
+     bolas, para contar cada batida uma única vez (requisito 4);
+   - a regra de quique do professor (afastarDe) foi mantida para a batida
+     entre as bolas; nas bordas e na nave/Sentinela a bola é colocada de
+     volta para fora e nunca fica presa;
+   - visual de bola de plasma (brilho, volume e anel na troca de cor).
+
+3) animacao.js
+   - processamentos (o Colisor roda dentro do loop), excluirSprite(),
+     sprite de fundo e painel desenhado por cima de tudo;
+   - o loop para quando a animação é desligada (Game Over).
+
+4) Novos sprites: Sentinela, Cristal, Painel, Onda e TextoFlutuante. A nave
+   e o laser vieram da atividade anterior, agora apontando para cima e com
+   retângulos de colisão.
